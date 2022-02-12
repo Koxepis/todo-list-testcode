@@ -26,9 +26,11 @@ function App() {
     if (isEditing) {
       const tmptoDoList = [...toDoList];
       const itemIdx = toDoList.indexOf(edited);
+
       if (itemIdx !== -1) {
         tmptoDoList[itemIdx] = newItem;
       }
+
       setToDoList(tmptoDoList);
       handleCloseModal();
       return;
@@ -51,6 +53,7 @@ function App() {
 
   const handleSort = () => {
     let tmpToDoList = [...toDoList];
+
     if (sortOrder === "Latest") {
       setSortOrder("Oldest");
       tmpToDoList = _.sortBy(tmpToDoList, (todos) => todos.date);
@@ -68,6 +71,7 @@ function App() {
     if (searched === "") {
       setToDoList(tmpToDoList);
     }
+
     tmpToDoList = _.filter(tmpToDoList, (todos) => {
       if (
         todos.title.includes(searched) ||
@@ -76,6 +80,7 @@ function App() {
         return true;
       }
     });
+
     console.log("tmpToDoList: ", tmpToDoList);
     setSearchedToDo(tmpToDoList);
   };
@@ -129,37 +134,33 @@ function App() {
       </div>
 
       {isSearching && searchedToDo.length > 0 && (
-        <>
-          <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-            {searchedToDo.map((todoItem) => {
-              return (
-                <TodoCard
-                  key={todoItem.id}
-                  todoList={todoItem}
-                  handleEdit={handleEdit}
-                  handleRemove={handleRemove}
-                />
-              );
-            })}
-          </ul>
-        </>
+        <ul className="divide-y divide-gray-200 mt-6 w-2/4">
+          {searchedToDo.map((todoItem) => {
+            return (
+              <TodoCard
+                key={todoItem.id}
+                todoList={todoItem}
+                handleEdit={handleEdit}
+                handleRemove={handleRemove}
+              />
+            );
+          })}
+        </ul>
       )}
 
       {!isSearching && toDoList && toDoList.length > 0 && (
-        <>
-          <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-            {toDoList.map((todoItem) => {
-              return (
-                <TodoCard
-                  key={todoItem.id}
-                  todoList={todoItem}
-                  handleEdit={handleEdit}
-                  handleRemove={handleRemove}
-                />
-              );
-            })}
-          </ul>
-        </>
+        <ul className="divide-y divide-gray-200 mt-6 w-2/4">
+          {toDoList.map((todoItem) => {
+            return (
+              <TodoCard
+                key={todoItem.id}
+                todoList={todoItem}
+                handleEdit={handleEdit}
+                handleRemove={handleRemove}
+              />
+            );
+          })}
+        </ul>
       )}
 
       {showModal && (
