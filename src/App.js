@@ -3,6 +3,7 @@ import Modal from "./components/Modal";
 import _ from "lodash";
 import { TodoCard } from "./components/TodoCard";
 import { GrSearch } from "react-icons/gr";
+import Dummy from "./components/Dummy";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -135,38 +136,40 @@ function App() {
         </div>
       </div>
 
-      {isSearching && searchedToDo.length > 0 ? (
-        <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-          {searchedToDo.map((todoItem, idx) => {
-            return (
-              <TodoCard
-                key={todoItem.id}
-                todoList={todoItem}
-                handleEdit={handleEdit}
-                handleRemove={handleRemove}
-              />
-            );
-          })}
-        </ul>
-      ) : (
-        ""
+      {isSearching && searchedToDo.length > 0 && (
+        <>
+          <ul className="divide-y divide-gray-200 mt-6 w-2/4">
+            {searchedToDo.map((todoItem) => {
+              return (
+                <TodoCard
+                  key={todoItem.id}
+                  todoList={todoItem}
+                  handleEdit={handleEdit}
+                  handleRemove={handleRemove}
+                />
+              );
+            })}
+          </ul>
+          <Dummy />
+        </>
       )}
 
-      {!isSearching && toDoList && toDoList.length > 0 ? (
-        <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-          {toDoList.map((todoItem, idx) => {
-            return (
-              <TodoCard
-                key={todoItem.id}
-                todoList={todoItem}
-                handleEdit={handleEdit}
-                handleRemove={handleRemove}
-              />
-            );
-          })}
-        </ul>
-      ) : (
-        ""
+      {!isSearching && toDoList && toDoList.length > 0 && (
+        <>
+          <ul className="divide-y divide-gray-200 mt-6 w-2/4">
+            {toDoList.map((todoItem) => {
+              return (
+                <TodoCard
+                  key={todoItem.id}
+                  todoList={todoItem}
+                  handleEdit={handleEdit}
+                  handleRemove={handleRemove}
+                />
+              );
+            })}
+          </ul>
+          <Dummy />
+        </>
       )}
 
       {showModal && (
