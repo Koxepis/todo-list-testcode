@@ -92,7 +92,7 @@ const Modal = ({ editToDo, setShowModal, edited }) => {
         <div className="flex w-full justify-end space-x-4 mt-4">
           <button
             onClick={() => setShowModal(false)}
-            className="bg-white hover:bg-gray-200 shadow-sm border border-gray-400 text-gray-800 font-normal text-sm py-1.5 px-4 rounded"
+            className="bg-gray-50 hover:bg-gray-200 shadow-sm border border-gray-400 text-gray-800 font-normal text-sm py-1.5 px-4 rounded"
           >
             Cancel
           </button>
