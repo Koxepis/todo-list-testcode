@@ -23,16 +23,19 @@ const Modal = ({ editToDo, setShowModal, edited }) => {
       setShowModal();
       return;
     }
+
     if (!title || !description) {
       alert("Data Required");
       return;
     }
+
     const tmpToDo = {
       id: uuidv4(),
       title: title,
       description: description,
       date: startDate,
     };
+
     editToDo(false, tmpToDo);
     setShowModal();
   };

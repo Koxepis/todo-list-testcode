@@ -12,13 +12,6 @@ function App() {
   const [searchedToDo, setSearchedToDo] = useState();
   const [isSearching, setIsSearching] = useState(false);
   const [toDoList, setToDoList] = useState([]);
-  // ToDont items must have this form :
-  // {
-  //     id: "bd3e8e68-ff45-42da-b17a-cf1a7d024bb9",
-  //     title: "a title",
-  //     description: "a description",
-  //     date: new Date(),
-  //   },
 
   const handleCloseModal = () => {
     setEdited(null);
@@ -135,38 +128,38 @@ function App() {
         </div>
       </div>
 
-      {isSearching && searchedToDo.length > 0 ? (
-        <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-          {searchedToDo.map((todoItem, idx) => {
-            return (
-              <TodoCard
-                key={todoItem.id}
-                todoList={todoItem}
-                handleEdit={handleEdit}
-                handleRemove={handleRemove}
-              />
-            );
-          })}
-        </ul>
-      ) : (
-        ""
+      {isSearching && searchedToDo.length > 0 && (
+        <>
+          <ul className="divide-y divide-gray-200 mt-6 w-2/4">
+            {searchedToDo.map((todoItem) => {
+              return (
+                <TodoCard
+                  key={todoItem.id}
+                  todoList={todoItem}
+                  handleEdit={handleEdit}
+                  handleRemove={handleRemove}
+                />
+              );
+            })}
+          </ul>
+        </>
       )}
 
-      {!isSearching && toDoList && toDoList.length > 0 ? (
-        <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-          {toDoList.map((todoItem, idx) => {
-            return (
-              <TodoCard
-                key={todoItem.id}
-                todoList={todoItem}
-                handleEdit={handleEdit}
-                handleRemove={handleRemove}
-              />
-            );
-          })}
-        </ul>
-      ) : (
-        ""
+      {!isSearching && toDoList && toDoList.length > 0 && (
+        <>
+          <ul className="divide-y divide-gray-200 mt-6 w-2/4">
+            {toDoList.map((todoItem) => {
+              return (
+                <TodoCard
+                  key={todoItem.id}
+                  todoList={todoItem}
+                  handleEdit={handleEdit}
+                  handleRemove={handleRemove}
+                />
+              );
+            })}
+          </ul>
+        </>
       )}
 
       {showModal && (
