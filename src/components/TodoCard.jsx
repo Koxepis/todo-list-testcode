@@ -19,18 +19,18 @@ export const TodoCard = ({ todoList, handleEdit, handleRemove }) => {
             </p>
 
             <div className="flex rounded-md shadow-sm w-16">
-              <div
+              <button
                 className="p-2 bg-gray-200 hover:bg-gray-400"
                 onClick={() => handleEdit(todoList)}
               >
                 <GrEdit size={13} />
-              </div>
-              <div
+              </button>
+              <button
                 className="p-2 bg-gray-200 hover:bg-gray-400"
                 onClick={() => handleRemove(todoList)}
               >
                 <GrTrash size={13} />
-              </div>
+              </button>
             </div>
           </div>
         </div>

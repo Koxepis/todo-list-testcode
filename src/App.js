@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./components/Modal";
 import _ from "lodash";
 import { TodoCard } from "./components/TodoCard";
@@ -9,9 +9,18 @@ function App() {
   const [edited, setEdited] = useState();
   const [searched, setSearched] = useState("");
   const [sortOrder, setSortOrder] = useState("Latest");
-  const [searchedToDo, setSearchedToDo] = useState();
+  const [searchedToDo, setSearchedToDo] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [toDoList, setToDoList] = useState([]);
+  const [whatevList, setWhatevList] = useState([]);
+
+  useEffect(() => {
+    if (isSearching) {
+      setWhatevList(searchedToDo);
+    } else {
+      setWhatevList(toDoList);
+    }
+  }, [isSearching, searchedToDo, toDoList]);
 
   const handleCloseModal = () => {
     setEdited(null);
@@ -35,6 +44,7 @@ function App() {
       handleCloseModal();
       return;
     }
+
     const tmpToDoList = [...toDoList, newItem];
     setToDoList(tmpToDoList);
   };
@@ -45,29 +55,50 @@ function App() {
   };
 
   const handleRemove = (item) => {
-    const tmpIdx = toDoList.find((todos) => todos.id === item.id);
+    const tmpIdx = toDoList.findIndex((todos) => todos.id === item.id);
     const tmpToDoList = [...toDoList];
+
     tmpToDoList.splice(tmpIdx, 1);
     setToDoList(tmpToDoList);
+
+    if (searchedToDo.length > 0) {
+      const tmpIdx = searchedToDo.findIndex((todos) => todos.id === item.id);
+      const tmpToDoList = [...searchedToDo];
+
+      tmpToDoList.splice(tmpIdx, 1);
+      setSearchedToDo(tmpToDoList);
+    }
   };
 
   const handleSort = () => {
     let tmpToDoList = [...toDoList];
+    let newTmpToDoList;
+
+    if (searchedToDo.length > 0) {
+      newTmpToDoList = [...searchedToDo];
+    }
 
     if (sortOrder === "Latest") {
       setSortOrder("Oldest");
       tmpToDoList = _.sortBy(tmpToDoList, (todos) => todos.date);
       setToDoList(tmpToDoList);
+
+      newTmpToDoList = _.sortBy(newTmpToDoList, (todos) => todos.date);
+      setSearchedToDo(newTmpToDoList);
     } else {
       setSortOrder("Latest");
       tmpToDoList = _.sortBy(tmpToDoList, (todos) => -todos.date);
       setToDoList(tmpToDoList);
+
+      newTmpToDoList = _.sortBy(newTmpToDoList, (todos) => -todos.date);
+      setSearchedToDo(newTmpToDoList);
     }
   };
 
   const handleInputSearch = () => {
     setIsSearching(true);
     let tmpToDoList = [...toDoList];
+
     if (searched === "") {
       setToDoList(tmpToDoList);
     }
@@ -91,7 +122,7 @@ function App() {
         <h1 className="text-3xl font-medium max-w-fit">Todo List!</h1>
 
         <div className="flex justify-center items-center my-4 min-w-fit space-x-4">
-          <div className="">
+          <div className="shadow-sm">
             <button
               onClick={handleAddToDo}
               className="bg-white hover:bg-gray-200 shadow-sm border-r border-l border-b border-t border-gray-200 text-gray-800 font-normal text-sm py-1.5 px-4 rounded-l"
@@ -106,7 +137,7 @@ function App() {
             </button>
           </div>
 
-          <div>
+          <div className="shadow-sm">
             <div className="relative flex space-x-4 justify-center items-center w-full">
               <input
                 type="text"
@@ -133,30 +164,15 @@ function App() {
         </div>
       </div>
 
-      {isSearching && searchedToDo.length > 0 && (
+      {toDoList && toDoList.length > 0 && (
         <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-          {searchedToDo.map((todoItem) => {
+          {whatevList.map((todoItem) => {
             return (
               <TodoCard
                 key={todoItem.id}
                 todoList={todoItem}
                 handleEdit={handleEdit}
-                handleRemove={handleRemove}
-              />
-            );
-          })}
-        </ul>
-      )}
-
-      {!isSearching && toDoList && toDoList.length > 0 && (
-        <ul className="divide-y divide-gray-200 mt-6 w-2/4">
-          {toDoList.map((todoItem) => {
-            return (
-              <TodoCard
-                key={todoItem.id}
-                todoList={todoItem}
-                handleEdit={handleEdit}
-                handleRemove={handleRemove}
+                handleRemove={() => handleRemove(todoItem)}
               />
             );
           })}

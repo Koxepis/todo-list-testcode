@@ -5,7 +5,7 @@ import { GrFormClose } from "react-icons/gr";
 import { v4 as uuidv4 } from "uuid";
 
 const Modal = ({ editToDo, setShowModal, edited }) => {
-  const [startDate, setStartDate] = useState();
+  const [startDate, setStartDate] = useState(edited ? edited.date : new Date());
   const [title, setTitle] = useState(edited ? edited.title : "");
   const [description, setDescription] = useState(
     edited ? edited.description : ""
@@ -25,7 +25,7 @@ const Modal = ({ editToDo, setShowModal, edited }) => {
     }
 
     if (!title || !description) {
-      alert("Data Required");
+      alert("Please fill all the required field");
       return;
     }
 
@@ -72,7 +72,7 @@ const Modal = ({ editToDo, setShowModal, edited }) => {
               minDate={new Date()}
               className="px-3 py-1.5 bg-white border shadow-sm border-slate-400 placeholder-slate-400 focus:outline-none focus:border-slate-200 block w-full rounded-md sm:text-sm font-normal"
               placeholderText="mm/dd/yyyy"
-              showDisabledMonthNavigation
+              dateFormat="MM/dd/yyyy"
             />
           </div>
         </div>
@@ -92,7 +92,7 @@ const Modal = ({ editToDo, setShowModal, edited }) => {
         <div className="flex w-full justify-end space-x-4 mt-4">
           <button
             onClick={() => setShowModal(false)}
-            className="bg-white hover:bg-gray-200 shadow-sm border border-gray-400 text-gray-800 font-normal text-sm py-1.5 px-4 rounded"
+            className="bg-gray-50 hover:bg-gray-200 shadow-sm border border-gray-400 text-gray-800 font-normal text-sm py-1.5 px-4 rounded"
           >
             Cancel
           </button>
